@@ -1,0 +1,19 @@
+def add_and_subtract(num1, num2):
+    # Add the two numbers
+    addition_result = num1 + num2
+    
+    # Subtract the second number from the first number
+    subtraction_result = num1 - num2
+    
+    return addition_result, subtraction_result
+
+# Taking input from the user
+num1 = float(input("Enter the first number: "))
+num2 = float(input("Enter the second number: "))
+
+# Calling the function and storing the results
+addition_result, subtraction_result = add_and_subtract(num1, num2)
+
+# Displaying the results
+print(f"Addition Result: {addition_result}")
+print(f"Subtraction Result: {subtraction_result}")

@@ -1,0 +1,7 @@
+def add_and_subtract(num1, num2):
+    addition_result = num1 + num2
+    subtraction_result = num1 - num2
+    return addition_result, subtraction_result
+addition_result, subtraction_result = add_and_subtract(num1, num2)
+print(f"Addition Result: {addition_result}")
+print(f"Subtraction Result: {subtraction_result}")
