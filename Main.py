@@ -8,13 +8,13 @@ class Lexemes_Scanner:
     def make_tokens(self, code):
         lexemes = []
         a = ''
-        in_multi_line_comment = False
+        multi_line_comment = False
         for char in code:
-            if in_multi_line_comment:
-                if char == '' and code[code.find('/')+2:code.find('*/')] == '/':
-                    in_multi_line_comment = False
-            elif char == '/' and code[code.find('/')+2:code.find('/')] == '*':
-                in_multi_line_comment = True
+            if multi_line_comment:
+                if '*/' in code:
+                    multi_line_comment = False
+            elif char == '/' and code.startswith('/*', code.find('/') + 1):
+                multi_line_comment = True
             elif char.isalnum() or char == '_':
                 a += char
             else:
@@ -28,18 +28,14 @@ class Lexemes_Scanner:
                         char = next(code)
                 else:
                     lexemes.append(char)
-        if a:
-            lexemes.append(a)
         return lexemes
 
     def task_1(self, code):
         lines = code.split('\n')
         cl = []
-        in_multi_line_comment = False
+        multi_line_comment = False
         for line in lines:
-            line_one_by_one = line.strip()
-            if 'input' in line:
-                continue
+            one_line = line.strip()
             if 'import' in line:
                 continue
             if '#' in line:
@@ -48,10 +44,10 @@ class Lexemes_Scanner:
                 continue
             if "'''" in line:
                 continue
-            if line_one_by_one and not line_one_by_one.startswith(('import ', '#', '"""', "'''")):
+            if one_line and not one_line.startswith(('import ', '#', '"""', "'''")):
                 cl.append(line)
             if '"""' in line or "'''" in line:
-                in_multi_line_comment = not in_multi_line_comment
+                multi_line_comment = not multi_line_comment
         return '\n'.join(cl)
 
     def load(self, file_path):
@@ -74,18 +70,25 @@ class Lexemes_Scanner:
         done_1 = self.task_1(input_code)
         self.lexemes = self.make_tokens(iter(done_1))
         self.dump(self.file_2, done_1)
+        print("\nTask#01\n")
         print(done_1)
         done_2 = self.task_2(self.file_2, ' ; ', '$')
-        self.dump(self.file_3, done_2)
+        print()
+        print("Task#02\n")
         print(done_2)
+        print("\nTask#03\n")
+        self.dump(self.file_3, done_2)
 
 class Main:
     def run(self):
-        example = Lexemes_Scanner("C:\\Users\\Abdul Hannan\\Desktop\\Assignment\\Main Code.txt",
-                           "C:\\Users\\Abdul Hannan\\Desktop\\Assignment\\File.1.txt",
-                             "C:\\Users\\Abdul Hannan\\Desktop\\Assignment\\File.2.txt")
-        example.initializer()
+        scan = Lexemes_Scanner("Main Code.txt",
+                           "File.1.txt",
+                             "File.2.txt")
+        scan.initializer()
         print("lexemes:")
-        print(example.lexemes)
+        num=0
+        for lex in scan.lexemes:
+            num=num+1
+            print(f"{num} {lex}")
 
 Main().run()
